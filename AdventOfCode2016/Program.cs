@@ -11,6 +11,8 @@ namespace Day1
         public static void Main(string[] args)
         {
             Console.WriteLine("Testing my 1st commit!");
+
+            Console.WriteLine("Another logging line.");
         }
     }
 }
