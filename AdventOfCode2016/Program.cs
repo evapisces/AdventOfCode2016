@@ -20,6 +20,17 @@ namespace Day1
             var inputA =
                 "R4, R5, L5, L5, L3, R2, R1, R1, L5, R5, R2, L1, L3, L4, R3, L1, L1, R2, R3, R3, R1, L3, L5, R3, R1, L1, R1, R2, L1, L4, L5, R4, R2, L192, R5, L2, R53, R1, L5, R73, R5, L5, R186, L3, L2, R1, R3, L3, L3, R1, L4, L2, R3, L5, R4, R3, R1, L1, R5, R2, R1, R1, R1, R3, R2, L1, R5, R1, L5, R2, L2, L4, R3, L1, R4, L5, R4, R3, L5, L3, R4, R2, L5, L5, R2, R3, R5, R4, R2, R1, L1, L5, L2, L3, L4, L5, L4, L5, L1, R3, R4, R5, R3, L5, L4, L3, L1, L4, R2, R5, R5, R4, L2, L4, R3, R1, L2, R5, L5, R1, R1, L1, L5, L5, L2, L1, R5, R2, L4, L1, R4, R3, L3, R1, R5, L1, L4, R2, L3, R5, R3, R1, L3";
 
+            var totalMoves = 0;
+            var input = Regex.Replace(inputA, @"\s+", "");
+            var inputList = input.Split(',');
+
+            foreach (var i in inputList)
+            {
+                var num = Convert.ToInt32(i.Substring(1, i.Length - 1));
+                totalMoves += num;
+            }
+
+
             var currX = ORIGX;
             var currY = ORIGY;
 
@@ -57,13 +68,13 @@ namespace Day1
 
             //Array.Clear(visited, 0, visited.Length);
 
-            currX = ORIGX;
-            currY = ORIGY;
+            currX = 0;
+            currY = 0;
 
             //testInput = "R8, R4, R4, R8";
             //ProcessInputB(ref currX, ref currY, testInput, ref visited);
 
-            ProcessInputB(ref currX, ref currY, inputB, ref visited);
+            ProcessInputB(ref currX, ref currY, inputA, ref visited);
 
             Console.Read();
         }
@@ -127,7 +138,7 @@ namespace Day1
 
         public static void ProcessInputB(ref int currX, ref int currY, string input, ref List<Coordinates> visited)
         {
-
+            //var matchFound = false;
             input = Regex.Replace(input, @"\s+", "");
             var inputList = input.Split(',');
 
@@ -139,10 +150,11 @@ namespace Day1
             });
 
 
-            foreach (var t in inputList)
+            foreach (var t in inputList.Select((value, index) => new { index, value}))
             {
-                var amtToMove = Convert.ToInt32(t.Substring(1));
-                if (t.StartsWith("R"))
+                Console.WriteLine("Index = " + t.index);
+                var amtToMove = Convert.ToInt32(t.value.Substring(1));
+                if (t.value.StartsWith("R"))
                 {
                     switch (dirFacing)
                     {
@@ -154,11 +166,6 @@ namespace Day1
                                     XCoord = currX,
                                     YCoord = currY - i
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX) + Math.Abs(currY - amtToMove)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currY -= amtToMove;
@@ -172,11 +179,6 @@ namespace Day1
                                     XCoord = currX,
                                     YCoord = currY + i
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX) + Math.Abs(currY + amtToMove)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currY += amtToMove;
@@ -190,12 +192,8 @@ namespace Day1
                                     XCoord = currX + i,
                                     YCoord = currY
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX + amtToMove) + Math.Abs(currY)));
-                                    break;
-                                }
                                 visited.Add(node);
+
                             }
                             currX += amtToMove;
                             dirFacing = 'R';
@@ -208,11 +206,6 @@ namespace Day1
                                     XCoord = currX - i,
                                     YCoord = currY
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX - amtToMove) + Math.Abs(currY)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currX -= amtToMove;
@@ -221,7 +214,7 @@ namespace Day1
 
                     }
                 }
-                else if (t.StartsWith("L"))
+                else if (t.value.StartsWith("L"))
                 {
                     switch (dirFacing)
                     {
@@ -233,11 +226,6 @@ namespace Day1
                                     XCoord = currX,
                                     YCoord = currY + i
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX) + Math.Abs(currY + amtToMove)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currY += amtToMove;
@@ -251,12 +239,7 @@ namespace Day1
                                     XCoord = currX,
                                     YCoord = currY - i
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX) + Math.Abs(currY - amtToMove)));
-                                    break;
-                                }
-                                visited.Contains(node);
+                                visited.Add(node);
                             }
                             currY -= amtToMove;
                             dirFacing = 'D';
@@ -269,11 +252,6 @@ namespace Day1
                                     XCoord = currX - i,
                                     YCoord = currY
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX - amtToMove) + Math.Abs(currY)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currX -= amtToMove;
@@ -287,21 +265,31 @@ namespace Day1
                                     XCoord = currX + i,
                                     YCoord = currY
                                 };
-                                if (visited.Any(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord))
-                                {
-                                    Console.WriteLine("Visited here already! Total blocks = " + (Math.Abs(currX + amtToMove) + Math.Abs(currY)));
-                                    break;
-                                }
                                 visited.Add(node);
                             }
                             currX += amtToMove;
                             dirFacing = 'R';
                             break;
-
                     }
                 }
             }
+
+            foreach (var node in visited)
+            {
+                var duplicatePoints = visited.Where(v => v.XCoord == node.XCoord && v.YCoord == node.YCoord).ToList();
+                if (duplicatePoints.Count > 1)
+                {
+                    var xDist = node.XCoord;
+                    var yDist = node.YCoord;
+                    var totalDist = Math.Abs(xDist) + Math.Abs(yDist);
+                    Console.WriteLine("Total Distance = " + totalDist);
+                    break;
+                }
+
+            }
+            
         }
+
 
 
         public class Coordinates
