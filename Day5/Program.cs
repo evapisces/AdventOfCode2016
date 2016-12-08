@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Day5
 {
+    /// <summary>
+    /// Day 5: How About a Nice Game of Chess?
+    /// </summary>
     public class Program
     {
         public static void Main(string[] args)
@@ -13,7 +16,7 @@ namespace Day5
             var testinput = "abc";
             var input = "cxdnnyjw";
             
-            //ProcessInputA(testinput);
+            ProcessInputA(testinput);
             ProcessInputB(input);
 
             Console.Read();
@@ -88,6 +91,11 @@ namespace Day5
             Console.WriteLine("");
         }
 
+        /// <summary>
+        /// Calculates the MD5 hash for a given string
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string CalculateMdD5Hash(string input)
         {
             var md5 = System.Security.Cryptography.MD5.Create();

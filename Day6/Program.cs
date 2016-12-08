@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Day6
 {
+    /// <summary>
+    /// Day 6: Signals and Noise
+    /// </summary>
     public class Program
     {
-        //static Dictionary<int, Dictionary<char, int>> letterOccurrences = new Dictionary<int, Dictionary<char, int>>();
-
         static Dictionary<char, int> letterOccurrences = new Dictionary<char, int>();
 
         public static void Main(string[] args)
@@ -45,7 +46,6 @@ namespace Day6
                 ResetDictionary(letterOccurrences);
                 j++;
             }
-
         }
 
         public static void ProcessInputB(List<string> lines)
@@ -70,7 +70,6 @@ namespace Day6
                 ResetDictionary(letterOccurrences);
                 j++;
             }
-
         }
 
         private static Dictionary<char, int> ResetDictionary(Dictionary<char, int> dict)

@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Day4
 {
+    /// <summary>
+    /// Day 4: Security Through Obscurity
+    /// </summary>
     public class Program
     {
         public class LetterInfo

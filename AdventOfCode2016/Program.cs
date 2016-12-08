@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Day1
 {
+    /// <summary>
+    /// Day 1: No Time for a Taxicab
+    /// </summary>
     public class Program
     {
         private const int ORIGX = 0;
@@ -29,7 +32,6 @@ namespace Day1
                 var num = Convert.ToInt32(i.Substring(1, i.Length - 1));
                 totalMoves += num;
             }
-
 
             var currX = ORIGX;
             var currY = ORIGY;
@@ -59,20 +61,13 @@ namespace Day1
             Console.WriteLine("CurrX = " + currX + ", CurrY = " + currY);
             Console.WriteLine("Total Blocks = " + (Math.Abs(currX) + Math.Abs(currY)));
 
-            
-
             // Part B
             var inputB =
                 "R4, R5, L5, L5, L3, R2, R1, R1, L5, R5, R2, L1, L3, L4, R3, L1, L1, R2, R3, R3, R1, L3, L5, R3, R1, L1, R1, R2, L1, L4, L5, R4, R2, L192, R5, L2, R53, R1, L5, R73, R5, L5, R186, L3, L2, R1, R3, L3, L3, R1, L4, L2, R3, L5, R4, R3, R1, L1, R5, R2, R1, R1, R1, R3, R2, L1, R5, R1, L5, R2, L2, L4, R3, L1, R4, L5, R4, R3, L5, L3, R4, R2, L5, L5, R2, R3, R5, R4, R2, R1, L1, L5, L2, L3, L4, L5, L4, L5, L1, R3, R4, R5, R3, L5, L4, L3, L1, L4, R2, R5, R5, R4, L2, L4, R3, R1, L2, R5, L5, R1, R1, L1, L5, L5, L2, L1, R5, R2, L4, L1, R4, R3, L3, R1, R5, L1, L4, R2, L3, R5, R3, R1, L3";
             var visited = new List<Coordinates>();
 
-            //Array.Clear(visited, 0, visited.Length);
-
             currX = 0;
             currY = 0;
-
-            //testInput = "R8, R4, R4, R8";
-            //ProcessInputB(ref currX, ref currY, testInput, ref visited);
 
             ProcessInputB(ref currX, ref currY, inputA, ref visited);
 
@@ -107,7 +102,6 @@ namespace Day1
                             currX -= amtToMove;
                             dirFacing = 'L';
                             break;
-
                     }
                 }
                 else if (t.StartsWith("L"))
@@ -130,7 +124,6 @@ namespace Day1
                             currX += amtToMove;
                             dirFacing = 'R';
                             break;
-
                     }
                 }
             }
@@ -138,7 +131,6 @@ namespace Day1
 
         public static void ProcessInputB(ref int currX, ref int currY, string input, ref List<Coordinates> visited)
         {
-            //var matchFound = false;
             input = Regex.Replace(input, @"\s+", "");
             var inputList = input.Split(',');
 
@@ -148,7 +140,6 @@ namespace Day1
                 XCoord = currX,
                 YCoord = currY
             });
-
 
             foreach (var t in inputList.Select((value, index) => new { index, value}))
             {
@@ -193,7 +184,6 @@ namespace Day1
                                     YCoord = currY
                                 };
                                 visited.Add(node);
-
                             }
                             currX += amtToMove;
                             dirFacing = 'R';
@@ -211,7 +201,6 @@ namespace Day1
                             currX -= amtToMove;
                             dirFacing = 'L';
                             break;
-
                     }
                 }
                 else if (t.value.StartsWith("L"))
@@ -285,12 +274,8 @@ namespace Day1
                     Console.WriteLine("Total Distance = " + totalDist);
                     break;
                 }
-
             }
-            
         }
-
-
 
         public class Coordinates
         {

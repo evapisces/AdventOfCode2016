@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Day_2
 {
+    /// <summary>
+    /// Day 2: Bathroom Security
+    /// </summary>
     public class Program
     {
         /* Keypad button locations

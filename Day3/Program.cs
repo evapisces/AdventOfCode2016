@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Day3
 {
+    /// <summary>
+    /// Day 3: Squares With Three Sides
+    /// </summary>
     public class Program
     {
         public static void Main(string[] args)
