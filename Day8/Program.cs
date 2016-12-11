@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Day8
 {
@@ -19,16 +15,14 @@ namespace Day8
             var file = File.ReadAllLines("../../day8input.txt");
             var grid = new char[MAXROWS, MAXCOLS];
 
-
             InitializeGrid(ref grid);
 
-
-            ProcessInputA(file, ref grid);
+            ProcessInputAB(file, ref grid);
 
             Console.Read();
         }
 
-        public static void ProcessInputA(string[] lines, ref char[,] grid)
+        public static void ProcessInputAB(string[] lines, ref char[,] grid)
         {
             foreach (var line in lines)
             {
@@ -39,12 +33,20 @@ namespace Day8
                 {
                     RotateCommand(line, ref grid);
                 }
+                PrintGrid(ref grid);
             }
-        }
 
-        public static void ProcessInputB(string[] lines)
-        {
-            
+            var litPixels = 0;
+            for (var i = 0; i < MAXROWS; i++)
+            {
+                for(var j = 0; j < MAXCOLS; j++)
+                {
+                    if (grid[i, j] == '#')
+                        litPixels++;
+                }
+            }
+
+            Console.WriteLine("# of lit pixels = " + litPixels);
         }
 
         private static void InitializeGrid(ref char[,] grid)
@@ -64,9 +66,9 @@ namespace Day8
             var l = int.Parse(dims.Split('x')[0]);
             var h = int.Parse(dims.Split('x')[1]);
 
-            for (var i = 0; i < l; i++)
+            for (var i = 0; i < h; i++)
             {
-                for (var j = 0; j < h; j++)
+                for (var j = 0; j < l; j++)
                 {
                     grid[i,j] = '#';
                 }
@@ -82,57 +84,55 @@ namespace Day8
 
             if (rowcol == "row")
             {
-                var row = grid.Cast<char>().Skip(rowColNum * MAXCOLS).Take(MAXCOLS).ToArray();
+                var colIndices = new List<int>();
 
-                foreach (var c in row)
+                for (var i = 0; i < MAXCOLS; i++)
                 {
-                    if (c == '#' && row.IndexOf() < row.Count - 1)
-                    {
-                        row[row.IndexOf(c) + 1] = '#';
-                        
-                    }
-                    else if (c == '#' && row.IndexOf(c) == row.Count - 1)
-                    {
-                        row[0] = '#';
-                    }
-                    row[row.IndexOf(c)] = '.';
+                    if (grid[rowColNum, i] != '#')
+                        continue;
+
+                    grid[rowColNum, i] = '.';
+                    colIndices.Add(i);
                 }
 
+                foreach (var i in colIndices)
+                {
+                    grid[rowColNum, (i + amt) % MAXCOLS] = '#';
+                }
             }
             else if (rowcol == "column")
             {
-                foreach (var row in grid)
+                var rowIndices = new List<int>();
+
+                for (var i = 0; i < MAXROWS; i++)
                 {
-                    
+                    if (grid[i, rowColNum] != '#')
+                        continue;
+
+                    grid[i, rowColNum] = '.';
+                    rowIndices.Add(i);
+                }
+
+                foreach(var i in rowIndices)
+                {
+                    grid[(i + amt) % (MAXROWS), rowColNum] = '#';
                 }
             }
-
-            grid = temp;
         }
-    }
 
-    /// <summary>
-    /// 
-    /// Source: http://stackoverflow.com/questions/27427527/how-to-get-a-complete-row-or-column-from-2d-array-in-c-sharp
-    /// User: Matthew Watson (http://stackoverflow.com/users/106159/matthew-watson)
-    /// </summary>
-    public static class ArrayExt
-    {
-        public static T[] GetRow<T>(this T[,] array, int row)
+        // Part B: print out what the screen would say after all instructions
+        // are ran though
+        public static void PrintGrid(ref char[,] grid)
         {
-            if (!typeof(T).IsPrimitive)
-                throw new InvalidOperationException("Not supported for managed types.");
-
-            if (array == null)
-                throw new ArgumentNullException("array");
-
-            int cols = array.GetUpperBound(1) + 1;
-            T[] result = new T[cols];
-            int size = Marshal.SizeOf<T>();
-
-            Array.Copy(array, row * cols * size, result, 0, cols * size);
-
-            return result;
+            for (var i = 0; i < MAXROWS; i++)
+            {
+                for (var j = 0; j < MAXCOLS; j++)
+                {
+                    Console.Write(grid[i, j]);
+                }
+                Console.WriteLine("");
+            }
+            Console.WriteLine("");
         }
     }
 }
