@@ -37,7 +37,7 @@ namespace Day14
                 {
                     var match = matches[0].Value;
                     var ch = match[0];
-                    for (var j = i+1; j < 1000 + i; j++)
+                    for (var j = i+1; j <= 1000 + i; j++)
                     {
                         var newHash = CalculateMdD5Hash(salt + j);
 
@@ -50,6 +50,7 @@ namespace Day14
                             Console.WriteLine("NewHash = " + newHash);
                             keys.Add(i, consecutiveMatches[0].Value);
                             index++;
+                            break;
                         }
                     }
                 }
