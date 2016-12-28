@@ -17,45 +17,55 @@ namespace Day20
             var maxIpValue = BigInteger.Parse(ConfigurationManager.AppSettings["MaxIpValue"]);
 
             var file = File.ReadAllLines("../../day20input.txt");
-            var allIps = new List<BigInteger>();
+            //var allIps = new List<long>();
 
-            for (BigInteger i = 0; i <= maxIpValue; i++)
-            {
-                allIps.Add(i);
-            }
+            var lines = file.Select(l => new IpRange(l)).OrderBy(l => l.Low).ToList();
             
-            ProcessInputA(allIps, file);
+            ProcessInputA(lines);
 
             Console.Read();
         }
 
-        public static void ProcessInputA(List<BigInteger> ips, string[] lines)
+        public static void ProcessInputA(List<IpRange> ipRanges)
         {
-            foreach (var line in lines)
+            var currLow = ipRanges[0].Low;
+            var currHigh = ipRanges[0].High;
+            foreach (var ipRange in ipRanges)
             {
-                var split = line.Split('-');
-                var min = BigInteger.Parse(split[0]);
-                var max = BigInteger.Parse(split[1]);
 
-                for (BigInteger n = min; n <= max; n++)
-                {
-                    if (ips.Contains(n))
-                    {
-                        var ip = ips.FirstOrDefault(i => i == n);
-                        ips.Remove(ip);
-                    }
-                }
+
+                //for (BigInteger n = min; n <= max; n++)
+                //{
+                //    if (ips.Contains(n))
+                //    {
+                //        var ip = ips.FirstOrDefault(i => i == n);
+                //        ips.Remove(ip);
+                //    }
+                //}
 
                 //ips.RemoveRange(min, (max-min));
             }
 
-            Console.WriteLine("Remaining IPs");
-            foreach (BigInteger ip in ips)
+            //Console.WriteLine("Remaining IPs");
+            /*foreach (BigInteger ip in ips)
             {
                 Console.WriteLine(ip);
-            }
+            }*/
 
-            Console.WriteLine("Min IP = " + ips.First());
+            //Console.WriteLine("Min IP = " + ips.First());
+        }
+
+        public class IpRange
+        {
+            public long Low { get; set; }
+            public long High { get; set; }
+
+            public IpRange(string line)
+            {
+                var split = line.Split('-');
+                Low = long.Parse(split[0].Trim());
+                High = long.Parse(split[1].Trim());
+            }
         }
     }
 }
